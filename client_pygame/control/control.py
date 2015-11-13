@@ -137,17 +137,23 @@ class Control(BaseControl):
         elif pygame.K_KP3 in keys:
             engine.set_player_direction(45)
             engine.set_missile_direction(45)
+        elif pygame.K_KP5 in keys:
+            engine.fire_missile()
         
         if pygame.K_1 in newkeys:
             engine.set_player_speed_stop()
         elif pygame.K_2 in newkeys:
             engine.set_player_speed_slow()
-        
+        elif pygame.K_3 in newkeys:
+            engine.set_player_speed_medium()
             
         if pygame.K_q in newkeys:
             engine.set_missile_range_none()
         elif pygame.K_w in newkeys:
             engine.set_missile_range_short()
+        elif pygame.K_e in newkeys:
+            engine.set_missile_range_medium()
+
 
         if pygame.K_a in newkeys:
             engine.set_missile_power_none()
