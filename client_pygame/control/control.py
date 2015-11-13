@@ -160,6 +160,11 @@ class Control(BaseControl):
         if pygame.K_i in newkeys:
             self.show_info = not self.show_info
 
+        if pygame.K_r in newkeys:
+            pass
+
+            
+
         return
         
     def game_control(self, engine):
