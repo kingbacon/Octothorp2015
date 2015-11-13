@@ -113,19 +113,31 @@ class Control(BaseControl):
         
         (mouse_x, mouse_y) = mouse_position
         
-        if pygame.K_UP in newkeys:
+        if pygame.K_KP8 in keys:
             engine.set_player_direction(270)
             engine.set_missile_direction(270)
-        elif pygame.K_DOWN in newkeys:
+        elif pygame.K_KP2 in keys:
             engine.set_player_direction(90)
             engine.set_missile_direction(90)
-        elif pygame.K_LEFT in newkeys:
+        elif pygame.K_KP4 in keys:
             engine.set_player_direction(180)
             engine.set_missile_direction(180)
-        elif pygame.K_RIGHT in newkeys:
+        elif pygame.K_KP6 in keys:
             engine.set_player_direction(0)
             engine.set_missile_direction(0)
-
+        elif pygame.K_KP9 in keys:
+            engine.set_player_direction(315)
+            engine.set_missile_direction(315)
+        elif pygame.K_KP7 in keys:
+            engine.set_player_direction(225)
+            engine.set_missile_direction(225)
+        elif pygame.K_KP1 in keys:
+            engine.set_player_direction(135)
+            engine.set_missile_direction(135)
+        elif pygame.K_KP3 in keys:
+            engine.set_player_direction(45)
+            engine.set_missile_direction(45)
+        
         if pygame.K_1 in newkeys:
             engine.set_player_speed_stop()
         elif pygame.K_2 in newkeys:
