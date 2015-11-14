@@ -335,6 +335,10 @@ class Display(BaseDisplay):
         if oid > 0: 
             obj = engine.get_object(oid)
             if obj:
+                rect = pygame.Rect(300, 660, obj.get_health(), 10)
+                pygame.draw.rect(surface, (255, 0, 0), rect)
+                rect = pygame.Rect(370, 660, obj.get_experience(), 10)
+                pygame.draw.rect(surface, (255, 0, 0), rect)
                 s = "Me: %s  HP: %.1f  XP: %.1f Mv: %.1f Ms: %.1f" % \
                     (engine.get_name(),
                      obj.get_health(),
