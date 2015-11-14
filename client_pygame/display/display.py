@@ -149,6 +149,7 @@ class Display(BaseDisplay):
         """
         # background
         rect = pygame.Rect(0, 0, self.width, self.height)
+        pygame.draw.rect(surface, self.background_color, rect)
         surface.blit(self.background_image, rect)   
 
         # draw each object
@@ -271,7 +272,7 @@ class Display(BaseDisplay):
                      obj.get_health(),
                      obj.get_experience(),
                      obj.get_move_mana(),
-                     obj.get_missile_mana()
+                     obj.get_missile_mana())
                 position_x = 20
                 position_y = self.height - STATUS_BAR_HEIGHT + 3 * self.font_size / 2
                 self.draw_text_left(surface, s, self.text_color, position_x, position_y, self.font)
@@ -286,7 +287,7 @@ class Display(BaseDisplay):
                      obj.get_health(),
                      obj.get_experience(),
                      obj.get_move_mana(),
-                     obj.get_missile_mana()
+                     obj.get_missile_mana())
                 position_x = FIELD_WIDTH/2
                 position_y = self.height - STATUS_BAR_HEIGHT + 6 * self.font_size / 2
                 self.draw_text_left(surface, s, self.text_color, position_x, position_y, self.font)
