@@ -109,6 +109,10 @@ class Display(BaseDisplay):
         self.background_image = pygame.image.load("background-atlantis.png")
         self.enemy_image = pygame.image.load("squid.png")
         self.harpoon = pygame.image.load("harpoon.png")
+        self.harpoon_right = pygame.image.load("harpoon_right.png")
+        self.harpoon_up = pygame.image.load("harpoon_up.png")
+        self.harpoon_down = pygame.image.load("harpoon_down.png")
+        self.ink_blot = pygame.image.load("ink_blot.png")
         return
 
     def paint_pregame(self, surface, control):
@@ -220,10 +224,44 @@ class Display(BaseDisplay):
         Draws living missiles.
         """
         if obj.is_alive():
+            if obj.get_player_oid() == engine.get_player_oid():
+                    rect = self.obj_to_rect(obj)
+                    if obj.get_dx() <= 0:
+                            if abs(obj.get_dx()) > abs(obj.get_dy()):
+                                # facing left image
+                                surface.blit(self.harpoon, rect)
+                            else:
+                                # facing up image
+                                surface.blit(self.harpoon_up, rect)
+                    elif obj.get_dx > 0:
+                            if abs(obj.get_dx()) > abs(obj.get_dy()):
+                                # facing right image
+                                surface.blit(self.harpoon_right, rect)
+                            else:
+                                # facing down image
+                                surface.blit(self.harpoon_down, rect)
+            else:
+                    rect = self.obj_to_rect(obj)
+                    if obj.get_dx() <= 0:
+                            if abs(obj.get_dx()) > abs(obj.get_dy()):
+                                # facing left image
+                                surface.blit(self.ink_blot, rect)
+                            else:
+                                # facing up image
+                                surface.blit(self.ink_blot, rect)
+                    elif obj.get_dx > 0:
+                            if abs(obj.get_dx()) > abs(obj.get_dy()):
+                                # facing right image
+                                surface.blit(self.ink_blot, rect)
+                            else:
+                                # facing down image
+                                surface.blit(self.ink_blot, rect)
+            return
+
             #color = self.missile_color
-            rect = self.obj_to_rect(obj)
+            #rect = self.obj_to_rect(obj)
             #pygame.draw.rect(surface, color, rect)
-            surface.blit(self.harpoon, rect)
+            #surface.blit(self.harpoon, rect)
         return
         
     def paint_player(self, surface, engine, control, obj):
