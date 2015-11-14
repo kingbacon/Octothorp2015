@@ -118,6 +118,7 @@ class Display(BaseDisplay):
         self.player_up = pygame.image.load("diver_up.png")
         self.player_down = pygame.image.load("diver_down.png")
         self.squid_player_up = pygame.image.load("squid_up.png")
+        self.wall_image = pygame.image.load("wall.png")
         self.loadscreen = pygame.image.load("loadscreen.png")
         self.music = "8bit Adventure Music.mp3"
         pygame.mixer.init()
@@ -155,7 +156,7 @@ class Display(BaseDisplay):
         rect = pygame.Rect(0, 0, self.width, self.height)
         surface.fill(self.background_color, rect)
         # text message in center of screen
-        s = "Waiting for opponent to connect."
+        s = "Locating 'Atlanticus hazardousm sqidicus'..."
         self.draw_text_center(surface, s, self.text_color,
                               self.width/2, self.height/2,
                               self.font)
@@ -219,7 +220,9 @@ class Display(BaseDisplay):
         Draws walls.
         """
         rect = self.obj_to_rect(obj)
-        pygame.draw.rect(surface, self.wall_color, rect)
+        #pygame.draw.rect(surface, self.wall_color, rect)
+        surface.blit(self.wall_image, rect)
+        
         return
         
     def paint_npc(self, surface, engine, control, obj):
