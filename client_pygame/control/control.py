@@ -230,8 +230,6 @@ class Control(BaseControl):
         
 
         
-
-        
         
         if pygame.K_a in newkeys:
             engine.set_missile_power_none()

@@ -285,44 +285,38 @@ class Display(BaseDisplay):
         Draws living players.
         My player is my opponent are in different colors
         """
-        dx = obj.get_dx()
-        dy = obj.get_dy()
-        if obj.get_oid() == engine.get_player_oid():
-            if obj.is_alive() and dx>0.1:
-                surface.blit(self.player_right, (obj.get_px(), obj.get_py()))
-            elif obj.is_alive() and dx<-0.1:
-                surface.blit(self.player_left, (obj.get_px(), obj.get_py()))
-            elif obj.is_alive() and dy>0.1:
-                surface.blit(self.player_down, (obj.get_px(), obj.get_py()))
+        if obj.is_alive():
+
+            (x, y) = obj.get_center()
+            x = int( round(x) )
+            y = int( round(y) )
+            missle_range = int( round(obj.get_missile_range()) )
+            pygame.draw.circle(surface, self.player_color, (x,y), missle_range, 1)
+
+            dx = obj.get_dx()
+            dy = obj.get_dy()
+            if obj.get_oid() == engine.get_player_oid():
+                if obj.is_alive() and dx>0.1:
+                    surface.blit(self.player_right, (obj.get_px(), obj.get_py()))
+                elif obj.is_alive() and dx<-0.1:
+                    surface.blit(self.player_left, (obj.get_px(), obj.get_py()))
+                elif obj.is_alive() and dy>0.1:
+                    surface.blit(self.player_down, (obj.get_px(), obj.get_py()))
+                else:
+                    surface.blit(self.player_up, (obj.get_px(), obj.get_py()))
             else:
-                surface.blit(self.player_up, (obj.get_px(), obj.get_py()))
-        else:
-            if obj.is_alive() and dx>0.1:
-                surface.blit(self.enemy_image, (obj.get_px(), obj.get_py()))
-            elif obj.is_alive() and dx<-0.1:
-                surface.blit(self.enemy_image, (obj.get_px(), obj.get_py()))
-            elif obj.is_alive() and dy>0.1:
-                surface.blit(self.enemy_image, (obj.get_px(), obj.get_py()))
-            else:
-                surface.blit(self.squid_player_up, (obj.get_px(), obj.get_py()))
-                    
+                if obj.is_alive() and dx>0.1:
+                    surface.blit(self.enemy_image, (obj.get_px(), obj.get_py()))
+                elif obj.is_alive() and dx<-0.1:
+                    surface.blit(self.enemy_image, (obj.get_px(), obj.get_py()))
+                elif obj.is_alive() and dy>0.1:
+                    surface.blit(self.enemy_image, (obj.get_px(), obj.get_py()))
+                else:
+                    surface.blit(self.squid_player_up, (obj.get_px(), obj.get_py()))
+                       
         return
 
-        """if obj.is_alive():
-
-
-                else:
-                color = self.opponent_color
-                pygame.draw.rect(surface, color, rect)
-                (x, y) = obj.get_center()
-                x = int( round(x) )
-                y = int( round(y) )
-                missle_range = int( round(obj.get_missile_range()) )
-                pygame.draw.circle(surface, color, (x,y), missle_range, 1)
-        return"""
-
            
-    
     def paint_game_status(self, surface, engine, control):
         """
         This method displays some text in the bottom strip
