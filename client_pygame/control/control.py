@@ -5,7 +5,7 @@
 
 import pygame
 from client.base_control import *
-
+from engine_server.config import *
 class Control(BaseControl):
     """
     This class is where you specify how your player
@@ -76,6 +76,7 @@ class Control(BaseControl):
         BaseControl.__init__(self, width, height)
         # used to control display of individual item information
         self.show_info = False
+        self.moving = False
         return
 
     def pregame_control(self, engine, keys, newkeys, buttons, newbuttons, mouse_position):
@@ -116,34 +117,54 @@ class Control(BaseControl):
         if pygame.K_KP8 in keys:
             engine.set_player_direction(270)
             engine.set_missile_direction(270)
+            self.moving = True
         elif pygame.K_KP2 in keys:
             engine.set_player_direction(90)
             engine.set_missile_direction(90)
+            self.moving = True
         elif pygame.K_KP4 in keys:
             engine.set_player_direction(180)
             engine.set_missile_direction(180)
+            self.moving = True
         elif pygame.K_KP6 in keys:
             engine.set_player_direction(0)
             engine.set_missile_direction(0)
+            self.moving = True
         elif pygame.K_KP9 in keys:
             engine.set_player_direction(315)
             engine.set_missile_direction(315)
+            self.moving = True
         elif pygame.K_KP7 in keys:
             engine.set_player_direction(225)
             engine.set_missile_direction(225)
+            self.moving = True
         elif pygame.K_KP1 in keys:
             engine.set_player_direction(135)
             engine.set_missile_direction(135)
+            self.moving = True
         elif pygame.K_KP3 in keys:
             engine.set_player_direction(45)
             engine.set_missile_direction(45)
+            self.moving = True
         elif pygame.K_KP5 in keys:
-            engine.fire_missile()
+            engine.set_player_speed_stop()
+
+
+        if self.moving == True:
+            oid = engine.get_player_oid()
+            player = engine.get_object(oid) 
+            if player.get_experience() >  XP_LEVELS[XP_LEVEL_SPEED_FAST]:
+                engine.set_player_speed_fast()
+            elif player.get_experience() >  XP_LEVELS[XP_LEVEL_SPEED_MEDIUM]:
+                engine.set_player_speed_fast()
+            else:
+                engine.set_player_speed_slow()
         
         if pygame.K_1 in newkeys:
             engine.set_player_speed_stop()
         elif pygame.K_2 in newkeys:
             engine.set_player_speed_slow()
+        
         elif pygame.K_3 in newkeys:
             engine.set_player_speed_medium()
             
@@ -153,14 +174,43 @@ class Control(BaseControl):
             engine.set_missile_range_short()
         elif pygame.K_e in newkeys:
             engine.set_missile_range_medium()
+        elif pygame.K_r in newkeys:
+            engine.set_missile_range_long()
 
-
+        
+        
         if pygame.K_a in newkeys:
             engine.set_missile_power_none()
         elif pygame.K_s in newkeys:
             engine.set_missile_power_low()
+        elif pygame.K_d in newkeys:
+            engine.set_missile_power_medium()
+        elif pygame.K_f in newkeys:
+            engine.set_missile_power_high()
+        
                 
         if pygame.K_SPACE in newkeys:
+            oid = engine.get_player_oid()
+            player = engine.get_object(oid) 
+            if player.get_experience() > XP_LEVELS[XP_LEVEL_POWER_HIGH]:
+                engine.set_missile_power_high()
+                
+            elif player.get_experience() > XP_LEVELS[XP_LEVEL_POWER_MEDIUM]:
+                engine.set_player_speed_medium()
+                
+            else:
+                engine.set_missile_power_low()
+                
+                
+            if player.get_experience() > XP_LEVELS[XP_LEVEL_RANGE_LONG]:
+                engine.set_missile_range_long
+                
+            elif player.get_experience() > XP_LEVELS[XP_LEVEL_RANGE_MEDIUM]:
+                engine.set_missile_range_medium
+                
+            else:
+                engine.set_missile_range_short
+                
             engine.fire_missile()
 
         if pygame.K_i in newkeys:
