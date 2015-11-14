@@ -8,6 +8,8 @@ from config import *
 from common.event import *
 from client.base_display import BaseDisplay
 
+import os
+
 class Display(BaseDisplay):
     """
     This class controls all of the drawing of the screen
@@ -104,6 +106,7 @@ class Display(BaseDisplay):
         self.wall_color       = (255, 255, 255)
         self.text_color       = (255, 255, 255)
         self.background_color = (0, 0, 0)
+        self.background_image = pygame.image.load("background-atlantis.png")
         return
 
     def paint_pregame(self, surface, control):
@@ -146,8 +149,8 @@ class Display(BaseDisplay):
         """
         # background
         rect = pygame.Rect(0, 0, self.width, self.height)
-        surface.fill(self.background_color, rect)
-            
+        surface.blit(self.background_image, rect)   
+
         # draw each object
         objs = engine.get_objects()
         for key in objs:
