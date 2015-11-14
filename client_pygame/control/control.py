@@ -6,6 +6,7 @@ import math
 import pygame
 from client.base_control import *
 from engine_server.config import *
+from common.object import INFINITE_HEALTH
 class Control(BaseControl):
     """
     This class is where you specify how your player
@@ -149,20 +150,24 @@ class Control(BaseControl):
             engine.set_missile_direction(45)
             self.moving = True
         elif pygame.K_KP5 in keys:
+
             engine.set_player_speed_stop()
 
-
+        
         if self.moving == True:
             oid = engine.get_player_oid()
             player = engine.get_object(oid) 
             if player.get_experience() >  XP_LEVELS[XP_LEVEL_SPEED_FAST]:
                 engine.set_player_speed_fast()
             elif player.get_experience() >  XP_LEVELS[XP_LEVEL_SPEED_MEDIUM]:
-                engine.set_player_speed_fast()
+                engine.set_player_speed_medium()
+            
             else:
                 engine.set_player_speed_slow()
 
-        """(x2,y2) = mouse_position
+        
+        '''            
+        (x2,y2) = mouse_position
 
         dx = x2 - x1
         dy = y2 - y1
@@ -182,6 +187,7 @@ class Control(BaseControl):
         radians = math.atan2(dy, dx)
         radians %= 2*math.pi
         degrees = math.degrees(radians)
+
         
         engine.set_missile_direction(degrees)
         engine.set_player_direction(degrees)
@@ -196,8 +202,8 @@ class Control(BaseControl):
                     engine.fire_missile()
                 if pygame.K_3 in newbuttons:
                     engine.set_player_speed_stop()
-            return"""
-
+            return
+        '''
         if pygame.K_1 in newkeys:
             engine.set_player_speed_stop()
         elif pygame.K_2 in newkeys:
@@ -213,9 +219,12 @@ class Control(BaseControl):
         elif pygame.K_w in newkeys:
             engine.set_missile_range_short()
         elif pygame.K_e in newkeys:
+
             engine.set_missile_range_medium()
+
         elif pygame.K_r in newkeys:
             engine.set_missile_range_long()
+        
 
         
 
@@ -227,9 +236,11 @@ class Control(BaseControl):
             engine.set_missile_power_low()
         elif pygame.K_d in newkeys:
             engine.set_missile_power_medium()
+
         elif pygame.K_f in newkeys:
             engine.set_missile_power_high()
 
+        
                 
         if pygame.K_SPACE in newkeys:
             oid = engine.get_player_oid()
@@ -249,6 +260,11 @@ class Control(BaseControl):
             else:
                 engine.set_missile_range_short
                 
+            if player.get_experience() > XP_LEVELS[XP_LEVEL_MOVE_MANA_RECHARGE_FAST]:
+                engine.set_move_mana_recharge_fast
+            elif player.get_experience() > XP_LEVELS[XP_LEVEL_MOVE_MANA_RECHARGE_MEDIUM]:
+                engine.set_move_mana_recharge_medium
+                
             engine.fire_missile()
 
         if pygame.K_i in newkeys:
@@ -257,9 +273,7 @@ class Control(BaseControl):
         
         if pygame.K_v in newkeys:
             self.show_radar_player = not self.show_radar_player
-
-            
-
+        
         return
         
     def game_control(self, engine):

@@ -2,7 +2,7 @@
 # This file is where you make the display for your game
 # Make changes and add functions as you need.
 #
-
+import os
 import pygame
 from config import *
 from common.event import *
@@ -80,7 +80,7 @@ class Display(BaseDisplay):
     BaseDisplay class.  See client/base_display.py.
     
     """
-
+    
     def __init__(self, width, height):
         """
         Configure display-wide settings and one-time
@@ -107,13 +107,14 @@ class Display(BaseDisplay):
         self.text_color       = (255, 255, 255)
         self.background_color = (0, 0, 0)
         self.background_image = pygame.image.load("background-atlantis.png")
-        self.enemy_image = pygame.image.load("squid.png")
-        self.harpoon = pygame.image.load("harpoon.png")
-        self.harpoon_right = pygame.image.load("harpoon_right.png")
-        self.harpoon_up = pygame.image.load("harpoon_up.png")
-        self.harpoon_down = pygame.image.load("harpoon_down.png")
-        self.ink_blot = pygame.image.load("ink_blot.png")
+        self.loadscreen = pygame.image.load("loadscreen.png")
+        self.music = "8bit Adventure Music.mp3"
+        pygame.mixer.init()
+        pygame.mixer.music.load(self.music)
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(1.00)
         return
+
 
     def paint_pregame(self, surface, control):
         """
@@ -121,16 +122,16 @@ class Display(BaseDisplay):
         """
         # background
         rect = pygame.Rect(0, 0, self.width, self.height)
-        surface.fill(self.background_color, rect)
+        surface.blit(self.loadscreen, rect)
         # text message in center of screen
-        s = "Press 'd' for dual player, 's' for single player,"
-        self.draw_text_center(surface, s, self.text_color,
-                              self.width/2, self.height/2,
-                              self.font)
-        s = "'t' for tournament, 'esc' to quit."
-        self.draw_text_center(surface, s, self.text_color,
-                              self.width/2, self.height/2 + 3*self.font_size/2,
-                              self.font)
+        #s = "Press 'd' for dual player, 's' for single player,"
+        #self.draw_text_center(surface, s, self.text_color,
+                              #self.width/2, self.height/2,
+                              #self.font)
+        #s = "'t' for tournament, 'esc' to quit."
+        #self.draw_text_center(surface, s, self.text_color,
+                              #self.width/2, self.height/2 + 3*self.font_size/2,
+                              #self.font)
         return
         
     def paint_waiting_for_game(self, surface, engine, control):
@@ -155,6 +156,7 @@ class Display(BaseDisplay):
         """
         # background
         rect = pygame.Rect(0, 0, self.width, self.height)
+        pygame.draw.rect(surface, self.background_color, rect)
         surface.blit(self.background_image, rect)   
 
         # draw each object
@@ -175,6 +177,7 @@ class Display(BaseDisplay):
         # draw game data
         if control.show_info:
             self.paint_game_status(surface, engine, control)
+        
         return
 
         
@@ -194,6 +197,7 @@ class Display(BaseDisplay):
         """
         Should process the event and decide if it needs to be displayed, or heard.
         """
+        
         return
 
     # The following methods draw appropriate rectangles
@@ -224,44 +228,9 @@ class Display(BaseDisplay):
         Draws living missiles.
         """
         if obj.is_alive():
-            if obj.get_player_oid() == engine.get_player_oid():
-                    rect = self.obj_to_rect(obj)
-                    if obj.get_dx() <= 0:
-                            if abs(obj.get_dx()) > abs(obj.get_dy()):
-                                # facing left image
-                                surface.blit(self.harpoon, rect)
-                            else:
-                                # facing up image
-                                surface.blit(self.harpoon_up, rect)
-                    elif obj.get_dx > 0:
-                            if abs(obj.get_dx()) > abs(obj.get_dy()):
-                                # facing right image
-                                surface.blit(self.harpoon_right, rect)
-                            else:
-                                # facing down image
-                                surface.blit(self.harpoon_down, rect)
-            else:
-                    rect = self.obj_to_rect(obj)
-                    if obj.get_dx() <= 0:
-                            if abs(obj.get_dx()) > abs(obj.get_dy()):
-                                # facing left image
-                                surface.blit(self.ink_blot, rect)
-                            else:
-                                # facing up image
-                                surface.blit(self.ink_blot, rect)
-                    elif obj.get_dx > 0:
-                            if abs(obj.get_dx()) > abs(obj.get_dy()):
-                                # facing right image
-                                surface.blit(self.ink_blot, rect)
-                            else:
-                                # facing down image
-                                surface.blit(self.ink_blot, rect)
-            return
-
-            #color = self.missile_color
-            #rect = self.obj_to_rect(obj)
-            #pygame.draw.rect(surface, color, rect)
-            #surface.blit(self.harpoon, rect)
+            color = self.missile_color
+            rect = self.obj_to_rect(obj)
+            pygame.draw.rect(surface, color, rect)
         return
         
     def paint_player(self, surface, engine, control, obj):
@@ -276,12 +245,16 @@ class Display(BaseDisplay):
             else:
                 color = self.opponent_color
             pygame.draw.rect(surface, color, rect)
-            (x, y) = obj.get_center()
-            x = int( round(x) )
-            y = int( round(y) )
-            missle_range = int( round(obj.get_missile_range()) )
-            pygame.draw.circle(surface, color, (x,y), missle_range, 1)
-        return
+            if control.show_radar_player:
+                (x, y) = obj.get_center()
+                x = int( round(x) )
+                y = int( round(y) )
+                missle_range = int( round(obj.get_missile_range()) )
+                pygame.draw.circle(surface, color, (x,y), missle_range, 1)
+            
+            
+        
+            return
 
            
             
@@ -323,7 +296,7 @@ class Display(BaseDisplay):
                      obj.get_experience(),
                      obj.get_move_mana(),
                      obj.get_missile_mana())
-                position_x = 20
+                position_x = FIELD_WIDTH/2
                 position_y = self.height - STATUS_BAR_HEIGHT + 6 * self.font_size / 2
                 self.draw_text_left(surface, s, self.text_color, position_x, position_y, self.font)
         return
