@@ -75,9 +75,7 @@ class Control(BaseControl):
         
         BaseControl.__init__(self, width, height)
         # used to control display of individual item information
-        self.show_info = True
-        self.show_radar_player = True
-        
+        self.show_info = False
         return
 
     def pregame_control(self, engine, keys, newkeys, buttons, newbuttons, mouse_position):
@@ -155,17 +153,12 @@ class Control(BaseControl):
             engine.set_missile_range_short()
         elif pygame.K_e in newkeys:
             engine.set_missile_range_medium()
-        
-
 
 
         if pygame.K_a in newkeys:
             engine.set_missile_power_none()
         elif pygame.K_s in newkeys:
             engine.set_missile_power_low()
-        elif pygame.K_d in newkeys:
-            engine.set_missile_power_medium()
-        
                 
         if pygame.K_SPACE in newkeys:
             engine.fire_missile()
@@ -173,9 +166,8 @@ class Control(BaseControl):
         if pygame.K_i in newkeys:
             self.show_info = not self.show_info
 
-        
-        if pygame.K_v in newkeys:
-            self.show_radar_player = not self.show_radar_player
+        if pygame.K_r in newkeys:
+            pass
 
             
 

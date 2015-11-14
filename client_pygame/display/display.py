@@ -2,7 +2,7 @@
 # This file is where you make the display for your game
 # Make changes and add functions as you need.
 #
-import os
+
 import pygame
 from config import *
 from common.event import *
@@ -166,7 +166,6 @@ class Display(BaseDisplay):
         # draw game data
         if control.show_info:
             self.paint_game_status(surface, engine, control)
-        
         return
 
         
@@ -233,16 +232,12 @@ class Display(BaseDisplay):
             else:
                 color = self.opponent_color
             pygame.draw.rect(surface, color, rect)
-            if control.show_radar_player:
-                (x, y) = obj.get_center()
-                x = int( round(x) )
-                y = int( round(y) )
-                missle_range = int( round(obj.get_missile_range()) )
-                pygame.draw.circle(surface, color, (x,y), missle_range, 1)
-            
-            
-        
-            return
+            (x, y) = obj.get_center()
+            x = int( round(x) )
+            y = int( round(y) )
+            missle_range = int( round(obj.get_missile_range()) )
+            pygame.draw.circle(surface, color, (x,y), missle_range, 1)
+        return
 
            
             
