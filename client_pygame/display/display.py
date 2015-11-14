@@ -113,6 +113,11 @@ class Display(BaseDisplay):
         self.harpoon_up = pygame.image.load("harpoon_up.png")
         self.harpoon_down = pygame.image.load("harpoon_down.png")
         self.ink_blot = pygame.image.load("ink_blot.png")
+        self.player_right = pygame.image.load("diver_right.png")
+        self.player_left = pygame.image.load("diver_left.png")
+        self.player_up = pygame.image.load("diver_up.png")
+        self.player_down = pygame.image.load("diver_down.png")
+        self.squid_player_up = pygame.image.load("squid_up.png")
         self.loadscreen = pygame.image.load("loadscreen.png")
         self.music = "8bit Adventure Music.mp3"
         pygame.mixer.init()
@@ -276,26 +281,43 @@ class Display(BaseDisplay):
         Draws living players.
         My player is my opponent are in different colors
         """
-        if obj.is_alive():
-            rect = self.obj_to_rect(obj)
-            if obj.get_oid() == engine.get_player_oid():
-                color = self.player_color
+        dx = obj.get_dx()
+        dy = obj.get_dy()
+        if obj.get_oid() == engine.get_player_oid():
+            if obj.is_alive() and dx>0.1:
+                surface.blit(self.player_right, (obj.get_px(), obj.get_py()))
+            elif obj.is_alive() and dx<-0.1:
+                surface.blit(self.player_left, (obj.get_px(), obj.get_py()))
+            elif obj.is_alive() and dy>0.1:
+                surface.blit(self.player_down, (obj.get_px(), obj.get_py()))
             else:
-                color = self.opponent_color
-            pygame.draw.rect(surface, color, rect)
-            (x, y) = obj.get_center()
-            x = int( round(x) )
-            y = int( round(y) )
-            missle_range = int( round(obj.get_missile_range()) )
-            pygame.draw.circle(surface, color, (x,y), missle_range, 1)
+                surface.blit(self.player_up, (obj.get_px(), obj.get_py()))
+        else:
+            if obj.is_alive() and dx>0.1:
+                surface.blit(self.enemy_image, (obj.get_px(), obj.get_py()))
+            elif obj.is_alive() and dx<-0.1:
+                surface.blit(self.enemy_image, (obj.get_px(), obj.get_py()))
+            elif obj.is_alive() and dy>0.1:
+                surface.blit(self.enemy_image, (obj.get_px(), obj.get_py()))
+            else:
+                surface.blit(self.squid_player_up, (obj.get_px(), obj.get_py()))
+                    
         return
 
-           
-            
+        """if obj.is_alive():
 
-            
-    
-    
+
+                else:
+                color = self.opponent_color
+                pygame.draw.rect(surface, color, rect)
+                (x, y) = obj.get_center()
+                x = int( round(x) )
+                y = int( round(y) )
+                missle_range = int( round(obj.get_missile_range()) )
+                pygame.draw.circle(surface, color, (x,y), missle_range, 1)
+        return"""
+
+           
     
     def paint_game_status(self, surface, engine, control):
         """
