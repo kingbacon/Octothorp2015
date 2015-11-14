@@ -167,6 +167,7 @@ class Display(BaseDisplay):
         """
         # background
         rect = pygame.Rect(0, 0, self.width, self.height)
+        pygame.draw.rect(surface, self.background_color, rect)
         surface.blit(self.background_image, rect)   
 
         # draw each object
