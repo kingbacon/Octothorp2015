@@ -286,12 +286,12 @@ class Display(BaseDisplay):
         My player is my opponent are in different colors
         """
         if obj.is_alive():
-
-            (x, y) = obj.get_center()
-            x = int( round(x) )
-            y = int( round(y) )
-            missle_range = int( round(obj.get_missile_range()) )
-            pygame.draw.circle(surface, self.player_color, (x,y), missle_range, 1)
+            if control.show_radar_player == True:
+                (x, y) = obj.get_center()
+                x = int( round(x) )
+                y = int( round(y) )
+                missle_range = int( round(obj.get_missile_range()) )
+                pygame.draw.circle(surface, self.player_color, (x,y), missle_range, 1)
 
             dx = obj.get_dx()
             dy = obj.get_dy()

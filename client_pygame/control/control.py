@@ -152,6 +152,7 @@ class Control(BaseControl):
         elif pygame.K_KP5 in keys:
 
             engine.set_player_speed_stop()
+            
 
         
         if self.moving == True:
@@ -169,16 +170,10 @@ class Control(BaseControl):
 
 
         
-        '''            
-        (x2,y2) = mouse_position
+                    
+        """(x2,y2) = mouse_position
 
-        dx = x2 - x1
-        dy = y2 - y1
-        radians = math.atan2(dy, dx)
-        radians %= 2 * math.pi
-        degrees = math.degrees(radians)
-
-        oid = engine.get_player_oid()
+        
         player = engine.get_object(oid)
         (x1,y1) = player.get_center()
 
@@ -206,7 +201,8 @@ class Control(BaseControl):
                 if pygame.K_3 in newbuttons:
                     engine.set_player_speed_stop()
             return
-        '''
+            """
+        
         if pygame.K_1 in newkeys:
             engine.set_player_speed_stop()
         elif pygame.K_2 in newkeys:
