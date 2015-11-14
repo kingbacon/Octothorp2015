@@ -162,8 +162,11 @@ class Control(BaseControl):
             elif player.get_experience() >  XP_LEVELS[XP_LEVEL_SPEED_MEDIUM]:
                 engine.set_player_speed_medium()
             
+            elif pygame.K_KP5 in keys:
+                engine.set_player_speed_stop()
             else:
-                engine.set_player_speed_slow()
+                engine.set_player_speed_slow
+
 
         
         '''            
