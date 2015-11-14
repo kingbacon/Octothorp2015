@@ -284,7 +284,7 @@ class Display(BaseDisplay):
                      obj.get_experience(),
                      obj.get_move_mana(),
                      obj.get_missile_mana())
-                position_x = 20
+                position_x = FIELD_WIDTH/2
                 position_y = self.height - STATUS_BAR_HEIGHT + 6 * self.font_size / 2
                 self.draw_text_left(surface, s, self.text_color, position_x, position_y, self.font)
         return

@@ -2,7 +2,7 @@
 # This file is where you will control your player.
 # Make changes and add functions as you need.
 #
-
+import math
 import pygame
 from client.base_control import *
 
@@ -141,7 +141,42 @@ class Control(BaseControl):
             engine.set_missile_direction(45)
         elif pygame.K_KP5 in keys:
             engine.fire_missile()
+        """(x2,y2) = mouse_position
+
+        dx = x2 - x1
+        dy = y2 - y1
+        radians = math.atan2(dy, dx)
+        radians %= 2 * math.pi
+        degrees = math.degrees(radians)
+
+        oid = engine.get_player_oid()
+        player = engine.get_object(oid)
+        (x1,y1) = player.get_center()
+
         
+
+        dx = x2-x1
+        dy = y2-y1
+
+        radians = math.atan2(dy, dx)
+        radians %= 2*math.pi
+        degrees = math.degrees(radians)
+        
+        engine.set_missile_direction(degrees)
+        engine.set_player_direction(degrees)
+
+        
+        oid = engine.get_player_oid()
+        if oid > 0: #check the player object exists
+            player = engine.get_object(oid)
+            if player != None: #make sure it is not a NoneType object
+            #Your code you want to run goes inside this block.
+                if pygame.K_1 in newbuttons:
+                    engine.fire_missile()
+                if pygame.K_3 in newbuttons:
+                    engine.set_player_speed_stop()
+            return"""
+
         if pygame.K_1 in newkeys:
             engine.set_player_speed_stop()
         elif pygame.K_2 in newkeys:
@@ -154,6 +189,8 @@ class Control(BaseControl):
         elif pygame.K_w in newkeys:
             engine.set_missile_range_short()
         elif pygame.K_e in newkeys:
+                engine.set_missile_range_medium()
+        elif pygame.K_r in newkeys:
             engine.set_missile_range_medium()
         
 
@@ -165,6 +202,8 @@ class Control(BaseControl):
             engine.set_missile_power_low()
         elif pygame.K_d in newkeys:
             engine.set_missile_power_medium()
+        elif pygame.K_f in newkeys:
+            engine.set_missile_power_high
         
                 
         if pygame.K_SPACE in newkeys:
