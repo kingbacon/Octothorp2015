@@ -2,7 +2,7 @@
 # This file is where you make the display for your game
 # Make changes and add functions as you need.
 #
-import os
+
 import pygame
 from config import *
 from common.event import *
@@ -107,6 +107,8 @@ class Display(BaseDisplay):
         self.text_color       = (255, 255, 255)
         self.background_color = (0, 0, 0)
         self.background_image = pygame.image.load("background-atlantis.png")
+        self.enemy_image = pygame.image.load("squid.png")
+        self.harpoon = pygame.image.load("harpoon.png")
         return
 
     def paint_pregame(self, surface, control):
@@ -149,7 +151,6 @@ class Display(BaseDisplay):
         """
         # background
         rect = pygame.Rect(0, 0, self.width, self.height)
-        pygame.draw.rect(surface, self.background_color, rect)
         surface.blit(self.background_image, rect)   
 
         # draw each object
@@ -170,7 +171,6 @@ class Display(BaseDisplay):
         # draw game data
         if control.show_info:
             self.paint_game_status(surface, engine, control)
-        
         return
 
         
@@ -220,9 +220,10 @@ class Display(BaseDisplay):
         Draws living missiles.
         """
         if obj.is_alive():
-            color = self.missile_color
+            #color = self.missile_color
             rect = self.obj_to_rect(obj)
-            pygame.draw.rect(surface, color, rect)
+            #pygame.draw.rect(surface, color, rect)
+            surface.blit(self.harpoon, rect)
         return
         
     def paint_player(self, surface, engine, control, obj):
@@ -237,16 +238,12 @@ class Display(BaseDisplay):
             else:
                 color = self.opponent_color
             pygame.draw.rect(surface, color, rect)
-            if control.show_radar_player:
-                (x, y) = obj.get_center()
-                x = int( round(x) )
-                y = int( round(y) )
-                missle_range = int( round(obj.get_missile_range()) )
-                pygame.draw.circle(surface, color, (x,y), missle_range, 1)
-            
-            
-        
-            return
+            (x, y) = obj.get_center()
+            x = int( round(x) )
+            y = int( round(y) )
+            missle_range = int( round(obj.get_missile_range()) )
+            pygame.draw.circle(surface, color, (x,y), missle_range, 1)
+        return
 
            
             
@@ -288,7 +285,7 @@ class Display(BaseDisplay):
                      obj.get_experience(),
                      obj.get_move_mana(),
                      obj.get_missile_mana())
-                position_x = FIELD_WIDTH/2
+                position_x = 20
                 position_y = self.height - STATUS_BAR_HEIGHT + 6 * self.font_size / 2
                 self.draw_text_left(surface, s, self.text_color, position_x, position_y, self.font)
         return

@@ -149,7 +149,6 @@ class Control(BaseControl):
             engine.set_missile_direction(45)
             self.moving = True
         elif pygame.K_KP5 in keys:
-<<<<<<< HEAD
             engine.set_player_speed_stop()
 
 
@@ -162,8 +161,7 @@ class Control(BaseControl):
                 engine.set_player_speed_fast()
             else:
                 engine.set_player_speed_slow()
-=======
-            engine.fire_missile()
+
         """(x2,y2) = mouse_position
 
         dx = x2 - x1
@@ -184,7 +182,6 @@ class Control(BaseControl):
         radians = math.atan2(dy, dx)
         radians %= 2*math.pi
         degrees = math.degrees(radians)
->>>>>>> origin/master
         
         engine.set_missile_direction(degrees)
         engine.set_player_direction(degrees)
@@ -216,15 +213,7 @@ class Control(BaseControl):
         elif pygame.K_w in newkeys:
             engine.set_missile_range_short()
         elif pygame.K_e in newkeys:
-<<<<<<< HEAD
             engine.set_missile_range_medium()
-=======
-                engine.set_missile_range_medium()
-        elif pygame.K_r in newkeys:
-            engine.set_missile_range_long()
-        
->>>>>>> origin/master
-
         elif pygame.K_r in newkeys:
             engine.set_missile_range_long()
 
@@ -238,16 +227,9 @@ class Control(BaseControl):
             engine.set_missile_power_low()
         elif pygame.K_d in newkeys:
             engine.set_missile_power_medium()
-<<<<<<< HEAD
-
         elif pygame.K_f in newkeys:
             engine.set_missile_power_high()
 
-=======
-        elif pygame.K_f in newkeys:
-            engine.set_missile_power_high()
->>>>>>> origin/master
-        
                 
         if pygame.K_SPACE in newkeys:
             oid = engine.get_player_oid()
