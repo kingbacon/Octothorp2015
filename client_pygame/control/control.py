@@ -77,6 +77,8 @@ class Control(BaseControl):
         # used to control display of individual item information
         self.show_info = False
         self.moving = False
+        self.show_info = True
+        self.show_radar_player = True
         return
 
     def pregame_control(self, engine, keys, newkeys, buttons, newbuttons, mouse_position):
@@ -174,8 +176,11 @@ class Control(BaseControl):
             engine.set_missile_range_short()
         elif pygame.K_e in newkeys:
             engine.set_missile_range_medium()
+
         elif pygame.K_r in newkeys:
             engine.set_missile_range_long()
+
+        
 
         
         
@@ -185,29 +190,27 @@ class Control(BaseControl):
             engine.set_missile_power_low()
         elif pygame.K_d in newkeys:
             engine.set_missile_power_medium()
+
         elif pygame.K_f in newkeys:
             engine.set_missile_power_high()
+
         
                 
         if pygame.K_SPACE in newkeys:
             oid = engine.get_player_oid()
             player = engine.get_object(oid) 
             if player.get_experience() > XP_LEVELS[XP_LEVEL_POWER_HIGH]:
-                engine.set_missile_power_high()
-                
+                engine.set_missile_power_high()    
             elif player.get_experience() > XP_LEVELS[XP_LEVEL_POWER_MEDIUM]:
-                engine.set_player_speed_medium()
-                
+                engine.set_player_speed_medium()  
             else:
                 engine.set_missile_power_low()
                 
                 
             if player.get_experience() > XP_LEVELS[XP_LEVEL_RANGE_LONG]:
-                engine.set_missile_range_long
-                
+                engine.set_missile_range_long   
             elif player.get_experience() > XP_LEVELS[XP_LEVEL_RANGE_MEDIUM]:
-                engine.set_missile_range_medium
-                
+                engine.set_missile_range_medium   
             else:
                 engine.set_missile_range_short
                 
@@ -216,8 +219,9 @@ class Control(BaseControl):
         if pygame.K_i in newkeys:
             self.show_info = not self.show_info
 
-        if pygame.K_r in newkeys:
-            pass
+        
+        if pygame.K_v in newkeys:
+            self.show_radar_player = not self.show_radar_player
 
             
 
